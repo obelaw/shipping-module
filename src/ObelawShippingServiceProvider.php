@@ -15,7 +15,10 @@ class ObelawShippingServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/shipping.php',
+            'obelaw.shipping'
+        );
     }
 
     /**
@@ -26,5 +29,9 @@ class ObelawShippingServiceProvider extends ServiceProvider
     public function boot()
     {
         AddonsPool::loadTwist(__DIR__ . '/../twist.php');
+
+        $this->publishes([
+            __DIR__ . '/../config/shipping.php' => config_path('obelaw/shipping.php'),
+        ]);
     }
 }
