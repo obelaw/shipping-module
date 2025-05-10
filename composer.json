@@ -13,5 +13,16 @@
             "email": "komicho1996@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "obelaw/twist": "*"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Obelaw\\Shipping\\ObelawShippingServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
