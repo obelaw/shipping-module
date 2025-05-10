@@ -1,0 +1,17 @@
+{
+    "name": "obelaw/shipping",
+    "description": "Shipping module",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Obelaw\\Shipping\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Karim Mohamed",
+            "email": "komicho1996@gmail.com"
+        }
+    ],
+    "require": {}
+}
