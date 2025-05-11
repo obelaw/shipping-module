@@ -4,6 +4,7 @@ namespace Obelaw\Shipping\Filament\Resources\DeliveryOrderResource\Pages;
 
 use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
@@ -54,22 +55,41 @@ class ViewDeliveryOrder extends ViewRecord
                     Tabs\Tab::make('Order Information')
                         ->icon('heroicon-m-user')
                         ->schema([
+                            TextEntry::make('id')
+                                ->label('#'),
+
                             TextEntry::make('cod_amount')
                                 ->label('COD')
                                 ->money('EGP'),
                         ]),
 
-                    Tabs\Tab::make('Shipping Information')
+                    Tabs\Tab::make('Shipment Information')
                         ->icon('heroicon-m-user')
                         ->schema([
-                            TextEntry::make('order.address.postcode')
-                                ->label('Phone Number'),
+                            TextEntry::make('shippable.id')
+                                ->label('Order ID'),
 
-                            TextEntry::make('order.address.street_line_1')
-                                ->label('Street Line 1'),
 
-                            TextEntry::make('order.address.phone_number')
-                                ->label('Phone Number'),
+                        ]),
+
+                    Tabs\Tab::make('Shipment Items')
+                        ->icon('heroicon-m-user')
+                        ->schema([
+                            RepeatableEntry::make('shippable.items')
+                                ->label('Items')
+                                ->schema([
+                                    TextEntry::make('name'),
+                                    TextEntry::make('sku'),
+                                    TextEntry::make('quantity'),
+                                    TextEntry::make('unit_price'),
+                                    TextEntry::make('unit_price')
+                                        ->money('EGP'),
+                                    TextEntry::make('row_price')
+                                        ->money('EGP'),
+                                ])
+                                ->columns(2)
+
+
                         ]),
                 ]),
             ])->columns(1);

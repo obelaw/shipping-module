@@ -2,8 +2,8 @@
 
 namespace Obelaw\Shipping\Models;
 
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Obelaw\Audit\Traits\HasSerialize;
-use Obelaw\Sales\Models\SalesFlatOrder;
 use Obelaw\Shipping\Models\DeliveryOrderAwb;
 use Obelaw\Twist\Base\BaseModel;
 
@@ -22,7 +22,6 @@ class DeliveryOrder extends BaseModel
      */
     protected $fillable = [
         'account_id',
-        'order_id',
         'cod_amount',
     ];
 
@@ -31,9 +30,9 @@ class DeliveryOrder extends BaseModel
         return $this->hasOne(CourierAccount::class, 'id', 'account_id');
     }
 
-    public function order()
+    public function shippable(): MorphTo
     {
-        return $this->hasOne(SalesFlatOrder::class, 'id', 'order_id');
+        return $this->morphTo();
     }
 
     public function AWB()

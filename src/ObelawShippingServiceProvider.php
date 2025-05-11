@@ -3,6 +3,7 @@
 namespace Obelaw\Shipping;
 
 use Illuminate\Support\ServiceProvider;
+use Obelaw\Shipping\Services\ShipperService;
 use Obelaw\Twist\Addons\AddonsPool;
 
 class ObelawShippingServiceProvider extends ServiceProvider
@@ -19,6 +20,8 @@ class ObelawShippingServiceProvider extends ServiceProvider
             __DIR__ . '/../config/shipping.php',
             'obelaw.shipping'
         );
+
+        $this->app->singleton('obelaw.shipping.services.shipper', ShipperService::class);
     }
 
     /**

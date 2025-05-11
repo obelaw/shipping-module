@@ -14,7 +14,7 @@ return new class extends BaseMigration
         Schema::create($this->prefix . 'shipping_delivery_order_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained($this->prefix . 'shipping_delivery_orders')->cascadeOnDelete();
-            $table->foreignId('item_id')->constrained($this->prefix . 'sales_flat_order_items')->cascadeOnDelete();
+            $table->morphs('itemable', 'itemable_index');
             $table->timestamps();
         });
     }
