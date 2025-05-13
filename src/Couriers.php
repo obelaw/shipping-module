@@ -12,15 +12,9 @@ abstract class Couriers
         public $DO
     ) {}
 
-    abstract public function ship($address);
-    abstract public function printLabel(DeliveryOrderAwb $AWB);
-    abstract public function tracking(DeliveryOrderAwb $AWB);
-    abstract public function cancel(DeliveryOrderAwb $AWB);
-
     public function doShip()
     {
-        $address = $this->DO->order->address;
-        $this->ship($address);
+        $this->ship($this->DO);
     }
 
     public function doPrintLabel(DeliveryOrderAwb $AWB)

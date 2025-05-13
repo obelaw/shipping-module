@@ -10,4 +10,8 @@ return [
      * select navigation group for the shipping module
      */
     'navigation_group' => null,
+
+    'couriers' => [
+        //
+    ]
 ];

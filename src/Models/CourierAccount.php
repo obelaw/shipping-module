@@ -14,7 +14,7 @@ class CourierAccount extends BaseModel
      * @var array<int, string>
      */
     protected $fillable = [
-        'courier_id',
+        'courier',
         'name',
         'credentials',
     ];
@@ -22,9 +22,4 @@ class CourierAccount extends BaseModel
     protected $casts = [
         'credentials' => 'array',
     ];
-
-    public function courier()
-    {
-        return $this->hasOne(Courier::class, 'id', 'courier_id');
-    }
 }

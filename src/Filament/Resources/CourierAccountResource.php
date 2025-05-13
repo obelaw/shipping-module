@@ -10,8 +10,9 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Obelaw\Shipping\Filament\Resources\CourierAccountResource\Pages;
+use Obelaw\Shipping\CourierDefine;
 use Obelaw\Shipping\Filament\Clusters\ShippingCluster;
+use Obelaw\Shipping\Filament\Resources\CourierAccountResource\Pages;
 use Obelaw\Shipping\Models\Courier;
 use Obelaw\Shipping\Models\CourierAccount;
 
@@ -27,10 +28,14 @@ class CourierAccountResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('courier_id')
+                Select::make('courier')
                     ->label('Courier')
                     ->required()
-                    ->options(Courier::pluck('name', 'id'))
+                    ->options(function () {
+                        $classes = CourierDefine::getAllIntegrationClasses();
+
+                        return array_combine(array_keys($classes), array_keys($classes));
+                    })
                     ->searchable(),
 
                 TextInput::make('name')

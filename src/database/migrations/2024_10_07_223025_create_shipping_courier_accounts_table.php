@@ -13,7 +13,7 @@ return new class extends BaseMigration
     {
         Schema::create($this->prefix . 'shipping_courier_accounts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('courier_id')->constrained($this->prefix . 'shipping_couriers')->cascadeOnDelete();
+            $table->string('courier')->index();
             $table->string('name');
             $table->json('credentials');
             $table->timestamps();

@@ -1,0 +1,27 @@
+<?php
+
+namespace {{ namespace }};
+
+use Obelaw\Shipping\Contracts\ShipperContract;
+use Obelaw\Shipping\Couriers;
+use Obelaw\Shipping\Models\DeliveryOrderAwb;
+
+class {{ class }} extends Couriers implements ShipperContract
+{
+    public function ship($deliveryOrder)
+    {
+        //
+    }
+
+    public function printLabel(DeliveryOrderAwb $AWB) {
+        //
+    }
+
+    public function tracking(DeliveryOrderAwb $AWB) {
+        //
+    }
+
+    public function cancel(DeliveryOrderAwb $AWB) {
+        //
+    }
+}
