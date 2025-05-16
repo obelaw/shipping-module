@@ -4,9 +4,9 @@ namespace Obelaw\Shipping\Models;
 
 use Obelaw\Twist\Base\BaseModel;
 
-class DeliveryOrderAwb extends BaseModel
+class ShippingDocument extends BaseModel
 {
-    protected $table = 'shipping_delivery_order_awbs';
+    protected $table = 'shipping_documents';
 
     /**
      * The attributes that are mass assignable.
@@ -15,7 +15,10 @@ class DeliveryOrderAwb extends BaseModel
      */
     protected $fillable = [
         'order_id',
-        'awb',
+        'document_number',
+        'document_file',
+        'courier_status',
+        'cancel_at',
     ];
 
     public function order()

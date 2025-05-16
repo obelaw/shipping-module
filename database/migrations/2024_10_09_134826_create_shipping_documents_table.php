@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Obelaw\Shipping\Lib\Enums\AWBState;
+use Obelaw\Shipping\Enums\DocumentState;
 use Obelaw\Twist\Base\BaseMigration;
 
 return new class extends BaseMigration
@@ -12,11 +12,12 @@ return new class extends BaseMigration
      */
     public function up(): void
     {
-        Schema::create($this->prefix . 'shipping_delivery_order_awbs', function (Blueprint $table) {
+        Schema::create($this->prefix . 'shipping_documents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained($this->prefix . 'shipping_delivery_orders')->cascadeOnDelete();
-            $table->smallInteger('state')->index()->default(AWBState::PREPARE);
-            $table->string('awb');
+            $table->smallInteger('state')->index()->default(DocumentState::PREPARE);
+            $table->string('document_number');
+            $table->string('document_file')->nullable();
             $table->string('courier_status')->nullable();
             $table->timestamp('cancel_at')->nullable();
             $table->timestamps();

@@ -13,7 +13,7 @@ use Filament\Tables\Table;
 use Obelaw\Shipping\Filament\Clusters\ShippingCluster;
 use Obelaw\Shipping\Filament\Resources\DeliveryOrderResource\Pages\ListDeliveryOrder;
 use Obelaw\Shipping\Filament\Resources\DeliveryOrderResource\Pages\ViewDeliveryOrder;
-use Obelaw\Shipping\Filament\Resources\DeliveryOrderResource\RelationManagers\AWBsRelation;
+use Obelaw\Shipping\Filament\Resources\DeliveryOrderResource\RelationManagers\DocumentsRelation;
 use Obelaw\Shipping\Models\Courier;
 use Obelaw\Shipping\Models\DeliveryOrder;
 use Obelaw\Permit\Attributes\Permissions;
@@ -78,7 +78,7 @@ class DeliveryOrderResource extends Resource
     public static function getRelations(): array
     {
         return [
-            AWBsRelation::class,
+            DocumentsRelation::class,
         ];
     }
 

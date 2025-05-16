@@ -13,15 +13,15 @@ class {{ class }} extends Couriers implements ShipperContract
         //
     }
 
-    public function printLabel(DeliveryOrderAwb $AWB) {
+    public function printLabel(DeliveryOrderAwb $document) {
         //
     }
 
-    public function tracking(DeliveryOrderAwb $AWB) {
+    public function tracking(DeliveryOrderAwb $document) {
         //
     }
 
-    public function cancel(DeliveryOrderAwb $AWB) {
+    public function cancel(DeliveryOrderAwb $document) {
         //
     }
 }

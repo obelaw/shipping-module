@@ -7,6 +7,11 @@
             "Obelaw\\Shipping\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Obelaw\\Shipping\\Tests\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "Karim Mohamed",
@@ -14,7 +19,13 @@
         }
     ],
     "require": {
-        "obelaw/twist": "*"
+        "obelaw/twist": "*",
+        "obelaw/audit": "dev-main"
+    },
+    "require-dev": {
+        "pestphp/pest": "^3.8",
+        "orchestra/testbench": "^9.14",
+        "pestphp/pest-plugin-laravel": "^3.2"
     },
     "extra": {
         "laravel": {
@@ -24,5 +35,13 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "scripts": {
+        "test": "./vendor/bin/pest"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
 }

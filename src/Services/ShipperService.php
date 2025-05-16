@@ -12,10 +12,11 @@ class ShipperService
 {
     /**
      * Creates a new delivery order associated with a given order.
+     * The provided `$order` model must define a `deliveryOrder()` relationship (typically MorphMany or MorphOne)
+     * that links to the `Obelaw\Shipping\Models\DeliveryOrder` model.
      *
-     * @param mixed $order The order model instance to which the delivery order will be associated.
-     *                     This model should have a `deliveryOrder()` morphMany relationship.
-     * @param int $accountId The ID of the courier account to be used for this delivery.
+     * @param \Illuminate\Database\Eloquent\Model $order The Eloquent model instance (e.g., an e-commerce order) to which the delivery order will be associated.
+     * @param int $accountId The ID of the `CourierAccount` to be used for this delivery.
      * @param float $codAmount The cash on delivery amount for the order.
      * @return DeliveryOrderService An instance of DeliveryOrderService for the newly created delivery order.
      */

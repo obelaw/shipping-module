@@ -4,7 +4,7 @@ namespace Obelaw\Shipping\Models;
 
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Obelaw\Audit\Traits\HasSerialize;
-use Obelaw\Shipping\Models\DeliveryOrderAwb;
+use Obelaw\Shipping\Models\ShippingDocument;
 use Obelaw\Twist\Base\BaseModel;
 
 class DeliveryOrder extends BaseModel
@@ -35,14 +35,14 @@ class DeliveryOrder extends BaseModel
         return $this->morphTo();
     }
 
-    public function AWB()
+    public function document()
     {
-        return $this->hasOne(DeliveryOrderAwb::class, 'order_id', 'id');
+        return $this->hasOne( ShippingDocument::class, 'order_id', 'id');
     }
 
-    public function AWBs()
+    public function documents()
     {
-        return $this->hasMany(DeliveryOrderAwb::class, 'order_id', 'id');
+        return $this->hasMany(ShippingDocument::class, 'order_id', 'id');
     }
 
     public function items()

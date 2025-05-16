@@ -8,7 +8,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Obelaw\Shipping\Models\CourierAccount;
 
-class AWBsRelation extends RelationManager
+class DocumentsRelation extends RelationManager
 {
     protected static ?string $title = 'AWBs';
     protected static ?string $icon = 'heroicon-o-archive-box';

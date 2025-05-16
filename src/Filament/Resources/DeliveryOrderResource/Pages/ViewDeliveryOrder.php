@@ -9,8 +9,8 @@ use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Pages\ViewRecord;
+use Obelaw\Shipping\Facades\Shipper;
 use Obelaw\Shipping\Filament\Resources\DeliveryOrderResource;
-use Obelaw\Shipping\Lib\Services\DeliveryOrderService;
 use Obelaw\Shipping\Models\CourierAccount;
 use Obelaw\Shipping\Models\DeliveryOrder;
 
@@ -39,7 +39,7 @@ class ViewDeliveryOrder extends ViewRecord
             Action::make('ship')
                 ->label('Ship it')
                 ->hidden(fn(DeliveryOrder $record) => is_null($record->account_id))
-                ->disabled(fn(DeliveryOrder $record) => DeliveryOrderService::make()->isHasAWB($record))
+                ->disabled(fn(DeliveryOrder $record) => Shipper::isHasDocument($record))
                 ->action(function (DeliveryOrder $record): void {
                     $classInstance = new $record->account->courier->class_instance($record->account, $record);
                     $classInstance->doShip();

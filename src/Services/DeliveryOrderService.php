@@ -5,7 +5,7 @@ namespace Obelaw\Shipping\Services;
 use Obelaw\Shipping\Contracts\ShipperContract;
 use Obelaw\Shipping\CourierDefine;
 use Obelaw\Shipping\Models\DeliveryOrder;
-use Obelaw\Shipping\Models\DeliveryOrderAwb;
+use Obelaw\Shipping\Models\ShippingDocument;
 
 /**
  * Service class for managing delivery orders and interacting with shipping couriers.
@@ -43,42 +43,42 @@ class DeliveryOrderService
     }
 
     /**
-     * Prints the shipping label for a specific Air Waybill (AWB).
+     * Prints the shipping label for a specific Air Waybill (Document).
      *
      * Delegates the print label action to the underlying courier instance.
      *
-     * @param DeliveryOrderAwb $AWB The DeliveryOrderAwb model instance for which to print the label.
+     * @param ShippingDocument $document The DeliveryOrderAwb model instance for which to print the label.
      * @return mixed The result of the print label operation. The specific return type depends on the implemented courier.
      */
-    public function printLabel(DeliveryOrderAwb $AWB)
+    public function printLabel(ShippingDocument $document)
     {
-        return $this->courierInstance->doPrintLabel($AWB);
+        return $this->courierInstance->doPrintLabel($document);
     }
 
     /**
-     * Tracks the shipment status for a specific Air Waybill (AWB).
+     * Tracks the shipment status for a specific Air Waybill (Document).
      *
      * Delegates the tracking action to the underlying courier instance.
      *
-     * @param DeliveryOrderAwb $AWB The DeliveryOrderAwb model instance to track.
+     * @param ShippingDocument $document The DeliveryOrderAwb model instance to track.
      * @return mixed The tracking information. The specific return type depends on the implemented courier.
      */
-    public function tracking(DeliveryOrderAwb $AWB)
+    public function tracking(ShippingDocument $document)
     {
-        return $this->courierInstance->doTracking($AWB);
+        return $this->courierInstance->doTracking($document);
     }
 
     /**
-     * Cancels a shipment associated with a specific Air Waybill (AWB).
+     * Cancels a shipment associated with a specific Air Waybill (Document).
      *
      * Delegates the cancellation action to the underlying courier instance.
      *
-     * @param DeliveryOrderAwb $AWB The DeliveryOrderAwb model instance to cancel.
+     * @param ShippingDocument $document The DeliveryOrderAwb model instance to cancel.
      * @return mixed The result of the cancellation operation. The specific return type depends on the implemented courier.
      */
-    public function cancel(DeliveryOrderAwb $AWB)
+    public function cancel(ShippingDocument $document)
     {
-        return $this->courierInstance->doCancel($AWB);
+        return $this->courierInstance->doCancel($document);
     }
 
     // TODO create refund method
@@ -93,4 +93,23 @@ class DeliveryOrderService
     // {
     //      return $this->courierInstance->doRefund();
     // }
+
+    public function createDocument(string $documentNumber): ShippingDocument
+    {
+        return $this->deliveryOrder->document()->create([
+            'document_number' => $documentNumber,
+        ]);
+    }
+
+    /**
+     * Checks if the given delivery order has an active (not canceled) Air Waybill (Document).
+     *
+     * @param DeliveryOrder $deliveryOrder The delivery order to check.
+     * @return ShippingDocument|null The active DeliveryOrderAwb model if found, otherwise null.
+     */
+    public function isHasDocument(DeliveryOrder $deliveryOrder)
+    {
+        // @phpstan-ignore-next-line model relation Document() might not be strictly typed yet for static analysis
+        return $deliveryOrder->document()->whereNull('cancel_at')->first();
+    }
 }
