@@ -1,6 +1,6 @@
 {
     "name": "obelaw/shipping",
-    "description": "Shipping module",
+    "description": "A comprehensive shipping module, enabling functionalities like carrier integration, rate calculation, label printing, and shipment tracking.",
     "license": "MIT",
     "autoload": {
         "psr-4": {
