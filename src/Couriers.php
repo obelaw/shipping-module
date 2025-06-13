@@ -37,7 +37,11 @@ abstract class Couriers
      */
     public function doShip()
     {
-        return $this->ship($this->deliveryOrder);
+        try {
+            return $this->ship($this->deliveryOrder);
+        } catch (\Throwable $th) {
+            throw new \Exception($th->getMessage());
+        }
     }
 
     /**

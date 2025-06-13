@@ -8,6 +8,7 @@ use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 use Obelaw\Shipping\CourierDefine;
 use Obelaw\Shipping\Facades\Shipper;
@@ -42,9 +43,16 @@ class ViewDeliveryOrder extends ViewRecord
                 ->hidden(fn(DeliveryOrder $record) => is_null($record->account_id))
                 // ->disabled(fn(DeliveryOrder $record) => Shipper::isHasDocument($record))
                 ->action(function (DeliveryOrder $record): void {
-                    $classInstance = CourierDefine::getIntegrationClass($record->account->courier);
-                    $classInstance = new $classInstance($record->account, $record);
-                    $classInstance->doShip();
+                    try {
+                        $classInstance = CourierDefine::getIntegrationClass($record->account->courier);
+                        $classInstance = new $classInstance($record->account, $record);
+                        $classInstance->doShip();
+                    } catch (\Throwable $th) {
+                        Notification::make()
+                            ->title($th->getMessage())
+                            ->danger()
+                            ->send();
+                    }
                 }),
         ];
     }
