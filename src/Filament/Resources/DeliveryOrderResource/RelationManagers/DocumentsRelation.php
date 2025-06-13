@@ -10,9 +10,9 @@ use Obelaw\Shipping\Models\CourierAccount;
 
 class DocumentsRelation extends RelationManager
 {
-    protected static ?string $title = 'AWBs';
+    protected static ?string $title = 'Documents';
     protected static ?string $icon = 'heroicon-o-archive-box';
-    protected static string $relationship = 'AWBs';
+    protected static string $relationship = 'documents';
 
     public function table(Table $table): Table
     {
@@ -24,8 +24,8 @@ class DocumentsRelation extends RelationManager
                 TextColumn::make('order.account.name')
                     ->label('Account'),
 
-                TextColumn::make('awb')
-                    ->label('AWB')
+                TextColumn::make('document_number')
+                    ->label('Document Number')
                     ->searchable(),
 
                 TextColumn::make('courier_status')
