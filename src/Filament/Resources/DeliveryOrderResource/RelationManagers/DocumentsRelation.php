@@ -2,10 +2,12 @@
 
 namespace Obelaw\Shipping\Filament\Resources\DeliveryOrderResource\RelationManagers;
 
+use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Obelaw\Shipping\CourierDefine;
 use Obelaw\Shipping\Models\CourierAccount;
 
 class DocumentsRelation extends RelationManager
@@ -41,15 +43,34 @@ class DocumentsRelation extends RelationManager
                 Action::make('updateTracking')
                     ->label('Update Tracking')
                     ->action(function ($record) {
-                        $classInstance = new $record->order->account->courier->class_instance($record->order->account, $record->order);
-                        return $classInstance->doTracking($record);
+                        try {
+                            $classInstance = CourierDefine::getIntegrationClass($record->order->account->courier);
+                            $classInstance = new $classInstance($record->order->account, $record->order);
+                            $classInstance->doTracking($record);
+                        } catch (\Throwable $th) {
+                            Notification::make()
+                                ->title($th->getMessage())
+                                ->danger()
+                                ->send();
+                        }
                     }),
 
                 Action::make('PrintLabel')
                     ->label('Print Label')
                     ->action(function ($record) {
-                        $classInstance = new $record->order->account->courier->class_instance($record->order->account, $record->order);
-                        return $classInstance->doPrintLabel($record);
+                        // $classInstance = new $record->order->account->courier->class_instance($record->order->account, $record->order);
+                        // return $classInstance->doPrintLabel($record);
+
+                        try {
+                            $classInstance = CourierDefine::getIntegrationClass($record->order->account->courier);
+                            $classInstance = new $classInstance($record->order->account, $record->order);
+                            $classInstance->doPrintLabel($record);
+                        } catch (\Throwable $th) {
+                            Notification::make()
+                                ->title($th->getMessage())
+                                ->danger()
+                                ->send();
+                        }
                     }),
 
                 Action::make('cancel')

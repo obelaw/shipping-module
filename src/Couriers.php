@@ -114,10 +114,8 @@ abstract class Couriers
      * @param string $documentNumber The document number (e.g., AWB number) to assign to the new shipping document.
      * @return void
      */
-    protected function setDocumentNumber(string $documentNumber): void
+    protected function setDocumentNumber(string $documentNumber)
     {
-        if (!Shipper::isHasDocument($this->deliveryOrder)) {
-            $this->deliveryOrder->document()->create(['document_number' => $documentNumber]);
-        }
+        return $this->deliveryOrder->document()->create(['document_number' => $documentNumber]);
     }
 }
