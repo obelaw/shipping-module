@@ -22,7 +22,7 @@ class ShipperService
      */
     public function createDeliveryOrder($order, $accountId, $codAmount)
     {
-        $deliveryOrder = $order->deliveryOrder()->create([
+        $deliveryOrder = $order->deliveryOrder()->firstOrCreate([
             'account_id' => $accountId,
             'cod_amount' => $codAmount,
         ]);
