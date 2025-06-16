@@ -48,7 +48,7 @@ class ShippingDocumentResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('courier_status')
-                    ->options(ShippingDocument::pluck('courier_status', 'courier_status'))
+                    ->options(ShippingDocument::whereNotNull('courier_status')->pluck('courier_status', 'courier_status'))
                     ->searchable()
             ])
             ->actions([
