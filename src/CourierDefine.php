@@ -11,10 +11,21 @@ class CourierDefine
      * @param  string  $integrationClass The fully qualified class name of the courier integration.
      * @return void
      */
-    public static function register(string $courier, string $integrationClass): void
+    public static function register(string $courier, array $data): void
     {
-        config()->set("obelaw.shipping.couriers.{$courier}", $integrationClass);
+        config()->set("obelaw.shipping.couriers.{$courier}", $data);
     }
+
+    public static function getName(string $courier): ?string
+    {
+        return config("obelaw.shipping.couriers.{$courier}.name");
+    }
+
+    public static function getIcon(string $courier): ?string
+    {
+        return config("obelaw.shipping.couriers.{$courier}.icon");
+    }
+
 
     /**
      * Get the integration class for a specific courier.
@@ -24,7 +35,7 @@ class CourierDefine
      */
     public static function getIntegrationClass(string $courier): ?string
     {
-        return config("obelaw.shipping.couriers.{$courier}");
+        return config("obelaw.shipping.couriers.{$courier}.integrationClass");
     }
 
     /**
