@@ -4,7 +4,7 @@ namespace Obelaw\Shipping;
 
 use Illuminate\Support\ServiceProvider;
 use Obelaw\Shipping\Console\Commands\MakeShipperCommand;
-use Obelaw\Shipping\CourierDefine;
+use Obelaw\Shipping\Console\Commands\UpdateTrackingCommand;
 use Obelaw\Shipping\Services\ShipperService;
 use Obelaw\Twist\Addons\AddonsPool;
 
@@ -42,6 +42,7 @@ class ObelawShippingServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 MakeShipperCommand::class,
+                UpdateTrackingCommand::class,
             ]);
         }
     }

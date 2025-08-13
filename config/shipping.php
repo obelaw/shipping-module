@@ -13,5 +13,9 @@ return [
 
     'couriers' => [
         //
+    ],
+
+    'tracking' => [
+        'courier_status' => [],
     ]
 ];
