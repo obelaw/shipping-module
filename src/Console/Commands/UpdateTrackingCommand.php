@@ -31,6 +31,7 @@ class UpdateTrackingCommand extends Command
     protected $signature = 'shipping:update:tracking
         {--courier= : Filter by courier code}
         {--status=* : Filter by courier_status (repeatable); if omitted uses config list}
+    {--exclude-status=* : Explicit courier_status values to exclude (repeatable)}
         {--pending : Only documents with NULL courier_status}
         {--id=* : Specific document id(s)}
         {--number=* : Specific document number(s)}
@@ -43,8 +44,9 @@ class UpdateTrackingCommand extends Command
     {
         $started = microtime(true);
 
-        $courier  = $this->option('courier');
-        $statuses = Arr::wrap($this->option('status')); // may be []
+    $courier  = $this->option('courier');
+    $statuses = Arr::wrap($this->option('status')); // may be []
+    $excludeStatuses = Arr::wrap($this->option('exclude-status'));
         $pending  = (bool)$this->option('pending');
         $ids      = array_filter(Arr::wrap($this->option('id')));
         $numbers  = array_filter(Arr::wrap($this->option('number')));
@@ -52,7 +54,11 @@ class UpdateTrackingCommand extends Command
         $chunk    = max(1, (int)$this->option('chunk'));
         $dry      = (bool)$this->option('dry');
 
-        // Default statuses from config if user did not pass --status or --pending
+    // Merge config defaults
+    $configExcluded = config('obelaw.shipping.tracking.excluded_courier_status', []);
+    $excludeStatuses = array_unique(array_filter(array_merge($excludeStatuses, $configExcluded)));
+
+    // Default statuses from config if user did not pass --status or --pending
         if (!$pending && empty($statuses)) {
             $configStatuses = config('obelaw.shipping.tracking.courier_status', []);
             if (!empty($configStatuses)) {
@@ -71,6 +77,12 @@ class UpdateTrackingCommand extends Command
             $query->whereNull('courier_status');
         } elseif (!empty($statuses)) {
             $query->whereIn('courier_status', $statuses);
+        }
+
+        if (!empty($excludeStatuses)) {
+            $query->where(function($q) use ($excludeStatuses) {
+                $q->whereNull('courier_status')->orWhereNotIn('courier_status', $excludeStatuses);
+            });
         }
 
         if ($ids) {
@@ -96,6 +108,7 @@ class UpdateTrackingCommand extends Command
             'courier' => $courier,
             'statuses' => $statuses,
             'pending' => $pending,
+            'exclude' => $excludeStatuses,
             'ids' => $ids,
             'numbers' => $numbers,
             'limit' => $limit,
