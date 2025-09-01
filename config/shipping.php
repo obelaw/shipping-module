@@ -18,5 +18,9 @@ return [
     'tracking' => [
         'courier_status' => [],
         'excluded_courier_status' => [],
+    ],
+
+    'cancel' => [
+        'courier_status' => [],
     ]
 ];

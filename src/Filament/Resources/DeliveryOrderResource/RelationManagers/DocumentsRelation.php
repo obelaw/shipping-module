@@ -75,9 +75,38 @@ class DocumentsRelation extends RelationManager
 
                 Action::make('cancel')
                     ->label('Cancel')
+                    ->visible(fn($record) => !$record->cancel_at && in_array($record->courier_status, config('obelaw.shipping.cancel.courier_status', [])))
+                    ->requiresConfirmation()
+                    ->color('danger')
                     ->action(function ($record) {
-                        $classInstance = new $record->order->account->courier->class_instance($record->order->account, $record->order);
-                        return $classInstance->doCancel($record);
+                        if (!in_array($record->courier_status, config('obelaw.shipping.cancel.courier_status', []))) {
+                            return Notification::make()
+                                ->title('Cannot cancel this shipment')
+                                ->danger()
+                                ->send();
+                        }
+
+                        try {
+                            $classInstance = CourierDefine::getIntegrationClass($record->order->account->courier);
+                            $classInstance = new $classInstance($record->order->account, $record->order);
+                            $classInstance->doCancel($record);
+                        } catch (\Throwable $th) {
+                            Notification::make()
+                                ->title($th->getMessage())
+                                ->danger()
+                                ->send();
+                        }
+                    }),
+
+                Action::make('delete')
+                    ->label('Delete')
+                    ->visible(fn($record) => $record->cancel_at && in_array($record->courier_status, config('obelaw.shipping.cancel.courier_status', [])))
+                    ->requiresConfirmation()
+                    ->color('danger')
+                    ->action(function ($record) {
+                        if ($record->cancel_at) {
+                            $record->delete();
+                        }
                     }),
             ])
             ->groupedBulkActions([

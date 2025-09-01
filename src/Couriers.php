@@ -80,8 +80,10 @@ abstract class Couriers
     {
         $cancel = $this->cancel($document);
 
-        $document->cancel_at = now();
-        $document->save();
+        if ($cancel) {
+            $document->cancel_at = now();
+            $document->save();
+        }
 
         return $cancel;
     }
