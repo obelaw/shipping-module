@@ -2,6 +2,7 @@
 
 namespace Obelaw\Shipping\Console\Commands;
 
+use Throwable;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
@@ -147,7 +148,7 @@ class UpdateTrackingCommand extends Command
                         $instances[$key]->doTracking($doc);
                         $success++;
                     }
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                     $failed++; Log::error('Tracking failed', [ 'document_id' => $doc->id, 'error' => $e->getMessage() ]);
                     if ($this->output->isVerbose()) {
                         $this->line("\n  Document {$doc->id} failed: {$e->getMessage()}");

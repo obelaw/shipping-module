@@ -8,8 +8,8 @@ use Obelaw\Twist\Facades\Twist;
 class ShippingCluster extends Cluster
 {
     protected static ?int $navigationSort = 1000;
-    protected static ?string $navigationGroup = 'ERP';
-    protected static ?string $navigationIcon = 'heroicon-o-truck';
+    protected static string | \UnitEnum | null $navigationGroup = 'ERP';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-truck';
 
     public static function getNavigationGroup(): ?string
     {

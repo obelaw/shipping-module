@@ -2,6 +2,7 @@
 
 namespace Obelaw\Shipping\Tests\App\Providers;
 
+use Obelaw\Shipping\Tests\App\Shipping\Shipper;
 use Illuminate\Support\ServiceProvider;
 use Obelaw\Shipping\CourierDefine;
 
@@ -16,7 +17,7 @@ class ShippingTestServiceProvider extends ServiceProvider
     {
         CourierDefine::register(
             'Shipper',
-            \Obelaw\Shipping\Tests\App\Shipping\Shipper::class
+            Shipper::class
         );
     }
 

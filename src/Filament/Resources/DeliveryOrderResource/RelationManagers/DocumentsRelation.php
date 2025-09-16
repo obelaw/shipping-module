@@ -2,9 +2,10 @@
 
 namespace Obelaw\Shipping\Filament\Resources\DeliveryOrderResource\RelationManagers;
 
+use Filament\Actions\Action;
+use Throwable;
 use Filament\Notifications\Notification;
 use Filament\Resources\RelationManagers\RelationManager;
-use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Obelaw\Shipping\CourierDefine;
@@ -13,7 +14,7 @@ use Obelaw\Shipping\Models\CourierAccount;
 class DocumentsRelation extends RelationManager
 {
     protected static ?string $title = 'Documents';
-    protected static ?string $icon = 'heroicon-o-archive-box';
+    protected static string | \BackedEnum | null $icon = 'heroicon-o-archive-box';
     protected static string $relationship = 'documents';
 
     public function table(Table $table): Table
@@ -39,7 +40,7 @@ class DocumentsRelation extends RelationManager
             ->headerActions([
                 // Tables\Actions\CreateAction::make(),
             ])
-            ->actions([
+            ->recordActions([
                 Action::make('updateTracking')
                     ->label('Update Tracking')
                     ->action(function ($record) {
@@ -47,7 +48,7 @@ class DocumentsRelation extends RelationManager
                             $classInstance = CourierDefine::getIntegrationClass($record->order->account->courier);
                             $classInstance = new $classInstance($record->order->account, $record->order);
                             $classInstance->doTracking($record);
-                        } catch (\Throwable $th) {
+                        } catch (Throwable $th) {
                             Notification::make()
                                 ->title($th->getMessage())
                                 ->danger()
@@ -65,7 +66,7 @@ class DocumentsRelation extends RelationManager
                             $classInstance = CourierDefine::getIntegrationClass($record->order->account->courier);
                             $classInstance = new $classInstance($record->order->account, $record->order);
                             $classInstance->doPrintLabel($record);
-                        } catch (\Throwable $th) {
+                        } catch (Throwable $th) {
                             Notification::make()
                                 ->title($th->getMessage())
                                 ->danger()
@@ -90,7 +91,7 @@ class DocumentsRelation extends RelationManager
                             $classInstance = CourierDefine::getIntegrationClass($record->order->account->courier);
                             $classInstance = new $classInstance($record->order->account, $record->order);
                             $classInstance->doCancel($record);
-                        } catch (\Throwable $th) {
+                        } catch (Throwable $th) {
                             Notification::make()
                                 ->title($th->getMessage())
                                 ->danger()

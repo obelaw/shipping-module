@@ -2,6 +2,8 @@
 
 namespace Obelaw\Shipping;
 
+use Throwable;
+use Exception;
 use Obelaw\Shipping\Models\CourierAccount;
 use Obelaw\Shipping\Models\DeliveryOrder;
 use Obelaw\Shipping\Facades\Shipper;
@@ -39,8 +41,8 @@ abstract class Couriers
     {
         try {
             return $this->ship($this->deliveryOrder);
-        } catch (\Throwable $th) {
-            throw new \Exception($th->getMessage());
+        } catch (Throwable $th) {
+            throw new Exception($th->getMessage());
         }
     }
 

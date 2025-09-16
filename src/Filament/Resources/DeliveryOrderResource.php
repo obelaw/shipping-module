@@ -2,8 +2,8 @@
 
 namespace Obelaw\Shipping\Filament\Resources;
 
+use Filament\Actions\ViewAction;
 use Filament\Resources\Resource;
-use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Obelaw\Shipping\Filament\Clusters\ShippingCluster;
@@ -11,28 +11,17 @@ use Obelaw\Shipping\Filament\Resources\DeliveryOrderResource\Pages\ListDeliveryO
 use Obelaw\Shipping\Filament\Resources\DeliveryOrderResource\Pages\ViewDeliveryOrder;
 use Obelaw\Shipping\Filament\Resources\DeliveryOrderResource\RelationManagers\DocumentsRelation;
 use Obelaw\Shipping\Models\DeliveryOrder;
-use Obelaw\Permit\Attributes\Permissions;
-use Obelaw\Permit\Traits\PremitCan;
+use Obelaw\Twist\Tenancy\Concerns\HasDBTenancy;
 
-#[Permissions(
-    id: 'permit.shipping.deliveryorder.viewAny',
-    title: 'Delivery Orders',
-    description: 'Access on delivery order at shipping',
-    permissions: []
-)]
 class DeliveryOrderResource extends Resource
 {
-    use PremitCan;
-
-    protected static ?array $canAccess = [
-        'can_viewAny' => 'permit.shipping.deliveryorder.viewAny',
-    ];
+    use HasDBTenancy;
 
     protected static ?string $model = DeliveryOrder::class;
 
     protected static ?string $cluster = ShippingCluster::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-map';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-map';
 
     public static function table(Table $table): Table
     {
@@ -47,7 +36,7 @@ class DeliveryOrderResource extends Resource
                 TextColumn::make('cod_amount')
                     ->money('EGP'),
             ])
-            ->actions([
+            ->recordActions([
                 ViewAction::make(),
             ]);
     }

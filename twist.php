@@ -1,7 +1,10 @@
 <?php
 
-\Obelaw\Twist\Addons\AddonRegistrar::register(
+use Obelaw\Twist\Addons\AddonRegistrar;
+use Obelaw\Shipping\ShippingAddon;
+
+AddonRegistrar::register(
     'obelaw.shipping',
-    \Obelaw\Shipping\ShippingAddon::class,
+    ShippingAddon::class,
     config('obelaw.shipping.panels')
 );

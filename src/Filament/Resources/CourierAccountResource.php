@@ -2,32 +2,41 @@
 
 namespace Obelaw\Shipping\Filament\Resources;
 
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\EditAction;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Obelaw\Shipping\CourierDefine;
 use Obelaw\Shipping\Filament\Clusters\ShippingCluster;
 use Obelaw\Shipping\Filament\Resources\CourierAccountResource\Pages;
+use Obelaw\Shipping\Filament\Resources\CourierAccountResource\Pages\CreateCourierAccount;
+use Obelaw\Shipping\Filament\Resources\CourierAccountResource\Pages\EditCourierAccount;
+use Obelaw\Shipping\Filament\Resources\CourierAccountResource\Pages\ListCourierAccounts;
 use Obelaw\Shipping\Models\Courier;
 use Obelaw\Shipping\Models\CourierAccount;
+use Obelaw\Twist\Tenancy\Concerns\HasDBTenancy;
 
 class CourierAccountResource extends Resource
 {
+    use HasDBTenancy;
+
     protected static ?string $model = CourierAccount::class;
     protected static ?string $cluster = ShippingCluster::class;
     protected static ?int $navigationSort = 77777;
-    protected static ?string $navigationGroup = 'Configuration';
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \UnitEnum | null $navigationGroup = 'Configuration';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 Select::make('courier')
                     ->label('Courier')
                     ->required()
@@ -56,12 +65,12 @@ class CourierAccountResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -76,9 +85,9 @@ class CourierAccountResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCourierAccounts::route('/'),
-            'create' => Pages\CreateCourierAccount::route('/create'),
-            'edit' => Pages\EditCourierAccount::route('/{record}/edit'),
+            'index' => ListCourierAccounts::route('/'),
+            'create' => CreateCourierAccount::route('/create'),
+            'edit' => EditCourierAccount::route('/{record}/edit'),
         ];
     }
 }

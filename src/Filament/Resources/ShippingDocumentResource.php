@@ -2,11 +2,12 @@
 
 namespace Obelaw\Shipping\Filament\Resources;
 
+use Filament\Actions\Action;
+use Filament\Actions\BulkAction;
+use Filament\Actions\BulkActionGroup;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Actions\Action;
-use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -16,12 +17,16 @@ use Obelaw\Shipping\CourierDefine;
 use Obelaw\Shipping\Filament\Clusters\ShippingCluster;
 use Obelaw\Shipping\Filament\Resources\ShippingDocumentResource\Pages\ListShippingDocument;
 use Obelaw\Shipping\Models\ShippingDocument;
+use Obelaw\Twist\Tenancy\Concerns\HasDBTenancy;
+use Throwable;
 
 class ShippingDocumentResource extends Resource
 {
+    use HasDBTenancy;
+
     protected static ?string $model = ShippingDocument::class;
     protected static ?string $cluster = ShippingCluster::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function table(Table $table): Table
     {
@@ -51,7 +56,7 @@ class ShippingDocumentResource extends Resource
                     ->options(ShippingDocument::whereNotNull('courier_status')->pluck('courier_status', 'courier_status'))
                     ->searchable()
             ])
-            ->actions([
+            ->recordActions([
                 Action::make('updateTracking')
                     ->label('Update Tracking')
                     ->action(function ($record) {
@@ -59,7 +64,7 @@ class ShippingDocumentResource extends Resource
                             $classInstance = CourierDefine::getIntegrationClass($record->order->account->courier);
                             $classInstance = new $classInstance($record->order->account, $record->order);
                             $classInstance->doTracking($record);
-                        } catch (\Throwable $th) {
+                        } catch (Throwable $th) {
                             Notification::make()
                                 ->title($th->getMessage())
                                 ->danger()
@@ -74,7 +79,7 @@ class ShippingDocumentResource extends Resource
                             $classInstance = CourierDefine::getIntegrationClass($record->order->account->courier);
                             $classInstance = new $classInstance($record->order->account, $record->order);
                             $classInstance->doPrintLabel($record);
-                        } catch (\Throwable $th) {
+                        } catch (Throwable $th) {
                             Notification::make()
                                 ->title($th->getMessage())
                                 ->danger()
@@ -82,8 +87,8 @@ class ShippingDocumentResource extends Resource
                         }
                     }),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
+            ->toolbarActions([
+                BulkActionGroup::make([
                     BulkAction::make('updateTrackingAll')
                         ->label('Update Tracking')
                         ->requiresConfirmation()
@@ -93,7 +98,7 @@ class ShippingDocumentResource extends Resource
                                     $classInstance = CourierDefine::getIntegrationClass($record->order->account->courier);
                                     $classInstance = new $classInstance($record->order->account, $record->order);
                                     $classInstance->doTracking($record);
-                                } catch (\Throwable $th) {
+                                } catch (Throwable $th) {
                                     Notification::make()
                                         ->title($th->getMessage())
                                         ->danger()

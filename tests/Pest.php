@@ -1,5 +1,6 @@
 <?php
 
+use Obelaw\Shipping\Tests\TestCase;
 use Obelaw\Twist\Console\SetupCommand;
 
 /*
@@ -13,7 +14,7 @@ use Obelaw\Twist\Console\SetupCommand;
 |
 */
 
-pest()->extend(Obelaw\Shipping\Tests\TestCase::class)
+pest()->extend(TestCase::class)
     // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
     ->in(__DIR__);
 

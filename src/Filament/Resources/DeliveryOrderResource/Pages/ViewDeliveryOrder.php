@@ -2,12 +2,14 @@
 
 namespace Obelaw\Shipping\Filament\Resources\DeliveryOrderResource\Pages;
 
+use Throwable;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Tabs;
+use Filament\Schemas\Components\Tabs\Tab;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Infolists\Components\RepeatableEntry;
-use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ViewRecord;
 use Obelaw\Shipping\CourierDefine;
@@ -26,7 +28,7 @@ class ViewDeliveryOrder extends ViewRecord
             Action::make('selectAccount')
                 ->label('Select Account')
                 ->hidden(fn(DeliveryOrder $record) => !is_null($record->account_id))
-                ->form([
+                ->schema([
                     Select::make(name: 'account_id')
                         ->label(label: 'Account')
                         ->required()
@@ -47,7 +49,7 @@ class ViewDeliveryOrder extends ViewRecord
                         $classInstance = CourierDefine::getIntegrationClass($record->account->courier);
                         $classInstance = new $classInstance($record->account, $record);
                         $classInstance->doShip();
-                    } catch (\Throwable $th) {
+                    } catch (Throwable $th) {
                         Notification::make()
                             ->title($th->getMessage())
                             ->danger()
@@ -57,12 +59,12 @@ class ViewDeliveryOrder extends ViewRecord
         ];
     }
 
-    public function infolist(Infolist $infolist): Infolist
+    public function infolist(Schema $schema): Schema
     {
         return $infolist
             ->schema([
                 Tabs::make('Tabs')->tabs([
-                    Tabs\Tab::make('Order Information')
+                    Tab::make('Order Information')
                         ->icon('heroicon-m-user')
                         ->schema([
                             TextEntry::make('id')
@@ -73,7 +75,7 @@ class ViewDeliveryOrder extends ViewRecord
                                 ->money('EGP'),
                         ]),
 
-                    Tabs\Tab::make('Shipment Information')
+                    Tab::make('Shipment Information')
                         ->icon('heroicon-m-user')
                         ->schema([
                             TextEntry::make('shippable.id')
@@ -82,7 +84,7 @@ class ViewDeliveryOrder extends ViewRecord
 
                         ]),
 
-                    Tabs\Tab::make('Shipment Items')
+                    Tab::make('Shipment Items')
                         ->icon('heroicon-m-user')
                         ->schema([
                             RepeatableEntry::make('shippable.items')
