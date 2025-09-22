@@ -10,16 +10,14 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Obelaw\Shipping\CourierDefine;
 use Obelaw\Shipping\Filament\Clusters\ShippingCluster;
-use Obelaw\Shipping\Filament\Resources\CourierAccountResource\Pages;
 use Obelaw\Shipping\Filament\Resources\CourierAccountResource\Pages\CreateCourierAccount;
 use Obelaw\Shipping\Filament\Resources\CourierAccountResource\Pages\EditCourierAccount;
 use Obelaw\Shipping\Filament\Resources\CourierAccountResource\Pages\ListCourierAccounts;
-use Obelaw\Shipping\Models\Courier;
 use Obelaw\Shipping\Models\CourierAccount;
 use Obelaw\Twist\Tenancy\Concerns\HasDBTenancy;
 
@@ -59,7 +57,14 @@ class CourierAccountResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('courier.name')->searchable(),
+                ImageColumn::make('courier')
+                    ->label('Courier')
+                    ->getStateUsing(fn($record) => CourierDefine::getIcon($record->courier)) // هذا يحدد مصدر الصورة
+                    ->circular()
+                    ->extraAttributes(fn($record) => [
+                        'title' => $record->courier,
+                    ]),
+
                 TextColumn::make('name')->searchable(),
             ])
             ->filters([
