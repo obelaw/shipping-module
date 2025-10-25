@@ -2,7 +2,7 @@
 
 namespace Obelaw\Shipping\Models;
 
-use Obelaw\Twist\Base\BaseModel;
+use Twist\Base\BaseModel;
 
 class ShippingDocument extends BaseModel
 {

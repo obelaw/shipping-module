@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Obelaw\Shipping\Console\Commands\MakeShipperCommand;
 use Obelaw\Shipping\Console\Commands\UpdateTrackingCommand;
 use Obelaw\Shipping\Services\ShipperService;
-use Obelaw\Twist\Addons\AddonsPool;
+use Twist\Addons\AddonsPool;
 
 class ObelawShippingServiceProvider extends ServiceProvider
 {

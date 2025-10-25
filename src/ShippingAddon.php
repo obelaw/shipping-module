@@ -12,11 +12,11 @@ use Filament\Support\Colors\Color;
 use Obelaw\OMS\Models\Order;
 use Obelaw\Shipping\Facades\Shipper;
 use Obelaw\Shipping\Models\CourierAccount;
-use Obelaw\Twist\Base\BaseAddon;
-use Obelaw\Twist\Concerns\InteractsWithMigration;
-use Obelaw\Twist\Contracts\HasHooks;
-use Obelaw\Twist\Contracts\HasMigration;
-use Obelaw\Twist\View\TwistView;
+use Twist\Base\BaseAddon;
+use Twist\Concerns\InteractsWithMigration;
+use Twist\Contracts\HasHooks;
+use Twist\Contracts\HasMigration;
+use Twist\View\TwistView;
 
 class ShippingAddon extends BaseAddon implements HasMigration, HasHooks
 {

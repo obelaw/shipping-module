@@ -17,7 +17,7 @@ use Obelaw\Shipping\CourierDefine;
 use Obelaw\Shipping\Filament\Clusters\ShippingCluster;
 use Obelaw\Shipping\Filament\Resources\ShippingDocumentResource\Pages\ListShippingDocument;
 use Obelaw\Shipping\Models\ShippingDocument;
-use Obelaw\Twist\Tenancy\Concerns\HasDBTenancy;
+use Twist\Tenancy\Concerns\HasDBTenancy;
 use Throwable;
 
 class ShippingDocumentResource extends Resource

@@ -19,7 +19,7 @@ use Obelaw\Shipping\Filament\Resources\CourierAccountResource\Pages\CreateCourie
 use Obelaw\Shipping\Filament\Resources\CourierAccountResource\Pages\EditCourierAccount;
 use Obelaw\Shipping\Filament\Resources\CourierAccountResource\Pages\ListCourierAccounts;
 use Obelaw\Shipping\Models\CourierAccount;
-use Obelaw\Twist\Tenancy\Concerns\HasDBTenancy;
+use Twist\Tenancy\Concerns\HasDBTenancy;
 
 class CourierAccountResource extends Resource
 {

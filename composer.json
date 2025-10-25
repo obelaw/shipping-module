@@ -19,8 +19,7 @@
         }
     ],
     "require": {
-        "obelaw/twist": "*",
-        "obelaw/audit": "dev-main"
+        "twist/twist": "^4.0"
     },
     "require-dev": {
         "pestphp/pest": "^3.8",

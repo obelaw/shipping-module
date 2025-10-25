@@ -11,7 +11,7 @@ use Obelaw\Shipping\Filament\Resources\DeliveryOrderResource\Pages\ListDeliveryO
 use Obelaw\Shipping\Filament\Resources\DeliveryOrderResource\Pages\ViewDeliveryOrder;
 use Obelaw\Shipping\Filament\Resources\DeliveryOrderResource\RelationManagers\DocumentsRelation;
 use Obelaw\Shipping\Models\DeliveryOrder;
-use Obelaw\Twist\Tenancy\Concerns\HasDBTenancy;
+use Twist\Tenancy\Concerns\HasDBTenancy;
 
 class DeliveryOrderResource extends Resource
 {

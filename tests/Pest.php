@@ -1,7 +1,7 @@
 <?php
 
 use Obelaw\Shipping\Tests\TestCase;
-use Obelaw\Twist\Console\SetupCommand;
+use Twist\Console\SetupCommand;
 
 /*
 |--------------------------------------------------------------------------

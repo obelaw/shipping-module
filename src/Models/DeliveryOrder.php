@@ -3,16 +3,11 @@
 namespace Obelaw\Shipping\Models;
 
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Obelaw\Audit\Traits\HasSerialize;
 use Obelaw\Shipping\Models\ShippingDocument;
-use Obelaw\Twist\Base\BaseModel;
+use Twist\Base\BaseModel;
 
 class DeliveryOrder extends BaseModel
 {
-    use HasSerialize;
-
-    protected static $serialSection = 'DO';
-
     protected $table = 'shipping_delivery_orders';
 
     /**
@@ -37,7 +32,7 @@ class DeliveryOrder extends BaseModel
 
     public function document()
     {
-        return $this->hasOne( ShippingDocument::class, 'order_id', 'id');
+        return $this->hasOne(ShippingDocument::class, 'order_id', 'id');
     }
 
     public function documents()
